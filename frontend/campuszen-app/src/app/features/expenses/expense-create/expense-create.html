@@ -1,0 +1,63 @@
+<div class="create-expense-container">
+    <div class="create-card">
+      <div class="header">
+        <button class="btn-back" routerLink="/expenses">← Retour</button>
+        <h1>💰 Nouvelle Dépense</h1>
+      </div>
+  
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Description *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="expense.description" 
+            name="description"
+            placeholder="Ex: Courses Carrefour"
+            required
+          >
+        </div>
+  
+        <div class="form-row">
+          <div class="form-group">
+            <label>Montant (€) *</label>
+            <input 
+              type="number" 
+              step="0.01"
+              [(ngModel)]="expense.amount" 
+              name="amount"
+              placeholder="45.50"
+              required
+            >
+          </div>
+  
+          <div class="form-group">
+            <label>Date *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="expense.date" 
+              name="date"
+              required
+            >
+          </div>
+        </div>
+  
+        <div class="info-box">
+          <p>💡 Pour l'instant, la dépense est automatiquement assignée à vous.</p>
+          <p>On ajoutera le partage entre utilisateurs plus tard !</p>
+        </div>
+  
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+  
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/expenses">
+            Annuler
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? 'Création...' : 'Créer la dépense' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

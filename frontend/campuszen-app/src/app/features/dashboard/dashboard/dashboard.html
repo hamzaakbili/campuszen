@@ -1,0 +1,83 @@
+<div class="dashboard-container">
+    <!-- Header avec Navigation -->
+    <header class="header">
+      <div class="logo">
+        <h1>🏠 CampusZen</h1>
+      </div>
+      <nav class="nav">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          📊 Dashboard
+        </a>
+        <a routerLink="/tasks" routerLinkActive="active">
+          ✅ Tâches
+        </a>
+        <a routerLink="/expenses" routerLinkActive="active">
+          💰 Dépenses
+        </a>
+      </nav>
+      <div class="user-menu">
+        <span>👤 {{ userName }}</span>
+        <button class="btn-logout" (click)="logout()">Déconnexion</button>
+      </div>
+    </header>
+  
+    <!-- Contenu Principal -->
+    <main class="main-content">
+      <div class="welcome">
+        <h2>Bienvenue {{ userName }} ! 👋</h2>
+        <p>Voici un aperçu de votre résidence</p>
+      </div>
+  
+      <!-- Cartes de Stats -->
+      <div class="stats-grid">
+        <div class="stat-card tasks" routerLink="/tasks">
+          <div class="stat-icon">✅</div>
+          <div class="stat-content">
+            <h3>Tâches en attente</h3>
+            <p class="stat-number">{{ taskCount }}</p>
+          </div>
+          <div class="stat-action">Voir les tâches →</div>
+        </div>
+  
+        <div class="stat-card expenses" routerLink="/expenses">
+          <div class="stat-icon">💰</div>
+          <div class="stat-content">
+            <h3>Total des dépenses</h3>
+            <p class="stat-number">{{ expenseTotal | number:'1.2-2' }} €</p>
+          </div>
+          <div class="stat-action">Voir les dépenses →</div>
+        </div>
+  
+        <div class="stat-card shopping">
+          <div class="stat-icon">🛒</div>
+          <div class="stat-content">
+            <h3>Liste de courses</h3>
+            <p class="stat-number">Bientôt</p>
+          </div>
+          <div class="stat-action">Bientôt disponible</div>
+        </div>
+  
+        <div class="stat-card events">
+          <div class="stat-icon">📅</div>
+          <div class="stat-content">
+            <h3>Événements</h3>
+            <p class="stat-number">Bientôt</p>
+          </div>
+          <div class="stat-action">Bientôt disponible</div>
+        </div>
+      </div>
+  
+      <!-- Actions Rapides -->
+      <div class="quick-actions">
+        <h3>Actions rapides</h3>
+        <div class="actions-grid">
+          <button class="action-btn" routerLink="/tasks/create">
+            ➕ Créer une tâche
+          </button>
+          <button class="action-btn" routerLink="/expenses/create">
+            ➕ Ajouter une dépense
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>

@@ -1,0 +1,54 @@
+<div class="expense-list-container">
+    <div class="header">
+      <div>
+        <h1>💰 Mes Dépenses</h1>
+        <p class="total">Total dépensé : <strong>{{ getTotalExpenses() | number:'1.2-2' }} €</strong></p>
+      </div>
+      <button class="btn-create" routerLink="/expenses/create">
+        + Nouvelle dépense
+      </button>
+    </div>
+  
+    <div *ngIf="isLoading" class="loading">
+      Chargement des dépenses...
+    </div>
+  
+    <div *ngIf="!isLoading && expenses.length === 0" class="empty">
+      <p>Aucune dépense pour le moment.</p>
+      <button routerLink="/expenses/create">Créer ma première dépense</button>
+    </div>
+  
+    <div class="expenses-grid" *ngIf="!isLoading && expenses.length > 0">
+      <div *ngFor="let expense of expenses" class="expense-card">
+        <div class="expense-header">
+          <h3>{{ expense.description }}</h3>
+          <span class="amount">{{ expense.amount | number:'1.2-2' }} €</span>
+        </div>
+  
+        <div class="expense-info">
+          <div class="info-item">
+            <span class="label">💳 Payé par:</span>
+            <span>{{ expense.paidByName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">📅 Date:</span>
+            <span>{{ expense.date }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">👥 Partagé entre:</span>
+            <span>{{ expense.splitBetweenNames?.join(', ') }}</span>
+          </div>
+          <div class="info-item highlight">
+            <span class="label">💵 Par personne:</span>
+            <span class="per-person">{{ expense.amountPerPerson | number:'1.2-2' }} €</span>
+          </div>
+        </div>
+  
+        <div class="expense-actions">
+          <button class="btn-delete" (click)="deleteExpense(expense.id!)">
+            🗑️ Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
