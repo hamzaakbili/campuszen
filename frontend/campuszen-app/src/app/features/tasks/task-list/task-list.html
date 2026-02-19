@@ -1,0 +1,59 @@
+<div class="task-list-container">
+    <div class="header">
+      <h1>📋 Mes Tâches</h1>
+      <button class="btn-create" routerLink="/tasks/create">
+        + Nouvelle tâche
+      </button>
+    </div>
+  
+    <div *ngIf="isLoading" class="loading">
+      Chargement des tâches...
+    </div>
+  
+    <div *ngIf="!isLoading && tasks.length === 0" class="empty">
+      <p>Aucune tâche pour le moment.</p>
+      <button routerLink="/tasks/create">Créer ma première tâche</button>
+    </div>
+  
+    <div class="tasks-grid" *ngIf="!isLoading && tasks.length > 0">
+      <div *ngFor="let task of tasks" class="task-card" [class.completed]="task.status === 'COMPLETED'">
+        <div class="task-header">
+          <h3>{{ task.title }}</h3>
+          <span class="frequency-badge" [class]="task.frequency">
+            {{ task.frequency }}
+          </span>
+        </div>
+  
+        <p class="description">{{ task.description }}</p>
+  
+        <div class="task-info">
+          <div class="info-item">
+            <span class="label">📅 Échéance:</span>
+            <span>{{ task.dueDate }}</span>
+          </div>
+          <div class="info-item" *ngIf="task.assignedToName">
+            <span class="label">👤 Assigné à:</span>
+            <span>{{ task.assignedToName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Statut:</span>
+            <span class="status" [class]="task.status">
+              {{ task.status === 'PENDING' ? '⏳ En attente' : '✅ Terminée' }}
+            </span>
+          </div>
+        </div>
+  
+        <div class="task-actions">
+          <button 
+            *ngIf="task.status === 'PENDING'" 
+            class="btn-complete"
+            (click)="markAsCompleted(task.id!)">
+            ✓ Marquer terminée
+          </button>
+          <button class="btn-delete" (click)="deleteTask(task.id!)">
+            🗑️ Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

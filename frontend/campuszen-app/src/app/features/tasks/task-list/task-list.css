@@ -1,0 +1,171 @@
+.task-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  h1 {
+    color: #333;
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .btn-create {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .btn-create:hover {
+    transform: translateY(-2px);
+  }
+  
+  .loading, .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+  
+  .empty button {
+    margin-top: 20px;
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  .task-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-card.completed {
+    opacity: 0.7;
+    background: #f5f5f5;
+  }
+  
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+  }
+  
+  .task-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+  }
+  
+  .frequency-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .frequency-badge.DAILY {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  .frequency-badge.WEEKLY {
+    background: #f3e5f5;
+    color: #7b1fa2;
+  }
+  
+  .frequency-badge.MONTHLY {
+    background: #fff3e0;
+    color: #f57c00;
+  }
+  
+  .description {
+    color: #666;
+    margin: 12px 0;
+    line-height: 1.5;
+  }
+  
+  .task-info {
+    margin: 16px 0;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+    font-size: 0.9rem;
+  }
+  
+  .label {
+    font-weight: 600;
+    color: #666;
+  }
+  
+  .status.PENDING {
+    color: #f57c00;
+  }
+  
+  .status.COMPLETED {
+    color: #4caf50;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  
+  .btn-complete, .btn-delete {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  
+  .btn-complete {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .btn-delete {
+    background: #f44336;
+    color: white;
+  }
+  
+  .btn-complete:hover, .btn-delete:hover {
+    opacity: 0.8;
+  }

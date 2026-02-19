@@ -1,0 +1,65 @@
+<div class="create-task-container">
+    <div class="create-card">
+      <div class="header">
+        <button class="btn-back" routerLink="/tasks">← Retour</button>
+        <h1>📝 Nouvelle Tâche</h1>
+      </div>
+  
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Titre *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="task.title" 
+            name="title"
+            placeholder="Ex: Nettoyer la cuisine"
+            required
+          >
+        </div>
+  
+        <div class="form-group">
+          <label>Description</label>
+          <textarea 
+            [(ngModel)]="task.description" 
+            name="description"
+            rows="4"
+            placeholder="Détails de la tâche..."
+          ></textarea>
+        </div>
+  
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fréquence *</label>
+            <select [(ngModel)]="task.frequency" name="frequency" required>
+              <option value="DAILY">Quotidienne</option>
+              <option value="WEEKLY">Hebdomadaire</option>
+              <option value="MONTHLY">Mensuelle</option>
+            </select>
+          </div>
+  
+          <div class="form-group">
+            <label>Date d'échéance *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="task.dueDate" 
+              name="dueDate"
+              required
+            >
+          </div>
+        </div>
+  
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+  
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" routerLink="/tasks">
+            Annuler
+          </button>
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? 'Création...' : 'Créer la tâche' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
