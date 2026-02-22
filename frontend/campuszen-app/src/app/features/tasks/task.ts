@@ -33,8 +33,8 @@ export class TaskService {
     return this.http.get<Task[]>(`${this.apiUrl}?residenceId=${residenceId}`);
   }
 
-  createTask(task: TaskRequest, residenceId: number): Observable<Task> {
-    return this.http.post<Task>(`${this.apiUrl}?residenceId=${residenceId}`, task);
+  createTask(task: TaskRequest, residenceId: number, userId: number): Observable<Task> {
+    return this.http.post<Task>(`${this.apiUrl}?residenceId=${residenceId}&userId=${userId}`, task);
   }
 
   updateTask(id: number, task: TaskRequest, residenceId: number): Observable<Task> {

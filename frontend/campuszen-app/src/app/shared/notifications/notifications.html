@@ -1,0 +1,36 @@
+<div class="notifications-container">
+    <!-- Bouton Cloche -->
+    <button class="notification-bell" (click)="togglePanel()">
+        🔔
+        <span *ngIf="unseenCount > 0" class="badge">{{ unseenCount }}</span>
+      </button>
+  
+    <!-- Panel des Notifications -->
+    <div class="notification-panel" *ngIf="isOpen">
+        <div class="panel-header">
+          <h3>🔔 Notifications</h3>
+        </div>
+    
+        <div class="notifications-list" *ngIf="notifications.length > 0">
+          <div 
+            *ngFor="let notif of notifications" 
+            class="notification-item"
+            [class.unseen]="!isNotificationSeen(notif.id)"
+          >
+            <div class="notif-icon">{{ getIcon(notif.type) }}</div>
+            <div class="notif-content">
+              <p class="notif-message">{{ notif.message }}</p>
+              <span class="notif-author">Par {{ notif.createdByName }}</span>
+              <span class="notif-time">{{ getTimeAgo(notif.createdAt) }}</span>
+            </div>
+          </div>
+        </div>
+    
+        <div class="empty-state" *ngIf="notifications.length === 0">
+          <p>Aucune notification pour le moment</p>
+        </div>
+      </div>
+    
+      <!-- Overlay pour fermer le panel -->
+      <div class="overlay" *ngIf="isOpen" (click)="togglePanel()"></div>
+    </div>

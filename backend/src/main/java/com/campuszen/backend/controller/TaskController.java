@@ -25,8 +25,9 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskResponse> createTask(
             @RequestBody TaskRequest request,
-            @RequestParam Long residenceId) {
-        return ResponseEntity.ok(taskService.createTask(request, residenceId));
+            @RequestParam Long residenceId,
+            @RequestParam Long userId) {
+        return ResponseEntity.ok(taskService.createTask(request, residenceId, userId));
     }
 
     @PutMapping("/{id}")

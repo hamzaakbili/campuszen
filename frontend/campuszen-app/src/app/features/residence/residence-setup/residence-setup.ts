@@ -79,4 +79,8 @@ export class ResidenceSetupComponent {
       }
     });
   }
+
+  skipSetup() {
+    this.router.navigate(['/dashboard']);
+  }
 }

@@ -26,6 +26,9 @@ public class TaskService {
     @Autowired
     private ResidenceRepository residenceRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public List<TaskResponse> getAllTasksByResidence(Long residenceId) {
         return taskRepository.findAll().stream()
                 .filter(task -> task.getResidence() != null &&
@@ -34,7 +37,7 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public TaskResponse createTask(TaskRequest request, Long residenceId) {
+    public TaskResponse createTask(TaskRequest request, Long residenceId, Long userId) {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -53,6 +56,15 @@ public class TaskService {
         task.setResidence(residence);
 
         Task savedTask = taskRepository.save(task);
+
+        // Créer une notification
+        notificationService.createNotification(
+                residenceId,
+                com.campuszen.backend.model.Notification.NotificationType.TASK,
+                "Nouvelle tâche créée : " + task.getTitle(),
+                userId  // Pour l'instant userId en dur, à améliorer plus tard
+        );
+
         return convertToResponse(savedTask);
     }
 

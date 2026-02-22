@@ -34,8 +34,8 @@ export class ExpenseService {
     return this.http.get<Expense[]>(`${this.apiUrl}?residenceId=${residenceId}`);
   }
 
-  createExpense(expense: ExpenseRequest, residenceId: number): Observable<Expense> {
-    return this.http.post<Expense>(`${this.apiUrl}?residenceId=${residenceId}`, expense);
+  createExpense(expense: ExpenseRequest, residenceId: number, userId: number): Observable<Expense> {
+    return this.http.post<Expense>(`${this.apiUrl}?residenceId=${residenceId}&userId=${userId}`, expense);
   }
 
   deleteExpense(id: number): Observable<void> {

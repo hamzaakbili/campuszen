@@ -25,8 +25,9 @@ public class ExpenseController {
     @PostMapping
     public ResponseEntity<ExpenseResponse> createExpense(
             @RequestBody ExpenseRequest request,
-            @RequestParam Long residenceId) {
-        return ResponseEntity.ok(expenseService.createExpense(request, residenceId));
+            @RequestParam Long residenceId,
+            @RequestParam Long userId) {
+        return ResponseEntity.ok(expenseService.createExpense(request, residenceId, userId));
     }
 
     @DeleteMapping("/{id}")

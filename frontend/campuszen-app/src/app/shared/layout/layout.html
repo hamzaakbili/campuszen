@@ -1,0 +1,29 @@
+<div class="layout-container">
+    <!-- Header avec Navigation -->
+    <header class="header">
+      <div class="logo">
+        <h1>🏠 CampusZen</h1>
+      </div>
+      <nav class="nav">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          📊 Dashboard
+        </a>
+        <a routerLink="/tasks" routerLinkActive="active">
+          ✅ Tâches
+        </a>
+        <a routerLink="/expenses" routerLinkActive="active">
+          💰 Dépenses
+        </a>
+      </nav>
+      <div class="user-menu">
+        <span>👤 {{ userName }}</span>
+        <app-notifications></app-notifications>
+        <button class="btn-logout" (click)="logout()">Déconnexion</button>
+      </div>
+    </header>
+  
+    <!-- Contenu de la page -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>

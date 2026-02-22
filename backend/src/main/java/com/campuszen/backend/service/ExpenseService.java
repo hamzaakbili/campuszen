@@ -30,6 +30,9 @@ public class ExpenseService {
     @Autowired
     private ResidenceRepository residenceRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public List<ExpenseResponse> getAllExpensesByResidence(Long residenceId) {
         return expenseRepository.findAll().stream()
                 .filter(expense -> expense.getResidence() != null &&
@@ -38,7 +41,7 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    public ExpenseResponse createExpense(ExpenseRequest request, Long residenceId) {
+    public ExpenseResponse createExpense(ExpenseRequest request, Long residenceId, Long userId1) {
         Expense expense = new Expense();
         expense.setDescription(request.getDescription());
         expense.setAmount(request.getAmount());
@@ -64,6 +67,13 @@ public class ExpenseService {
         expense.setResidence(residence);
 
         Expense savedExpense = expenseRepository.save(expense);
+
+        notificationService.createNotification(
+                residenceId,
+                com.campuszen.backend.model.Notification.NotificationType.EXPENSE,
+                "Nouvelle dépense ajoutée : " + expense.getDescription() + " (" + expense.getAmount() + "€)",
+                userId1  // ← Utilise le vrai userId
+        );
         return convertToResponse(savedExpense);
     }
 

@@ -87,7 +87,7 @@
   }
 
   /* Code de Résidence */
-.residence-code-card {
+  .residence-code-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 12px;
     padding: 24px;
@@ -96,12 +96,6 @@
     align-items: center;
     margin-bottom: 40px;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  }
-  
-  .code-info {
-    display: flex;
-    align-items: center;
-    gap: 16px;
   }
   
   .code-info .label {
@@ -120,10 +114,13 @@
     font-weight: 700;
     letter-spacing: 2px;
   }
+  .code-actions {
+    display: flex;
+    gap: 12px;
+  }
   
-  .btn-copy {
+  .btn-copy, .btn-change {
     background: white;
-    color: #667eea;
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -132,7 +129,14 @@
     transition: transform 0.2s;
   }
   
-  .btn-copy:hover {
+  .btn-copy {
+    color: #667eea;
+  }
+  .btn-change {
+    color: #ff9800;
+  }
+
+  .btn-copy:hover, .btn-change:hover {
     transform: scale(1.05);
   }
   

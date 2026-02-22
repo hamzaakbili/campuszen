@@ -2,7 +2,9 @@
     <div class="setup-card">
       <h1>🏠 Bienvenue sur CampusZen !</h1>
       <p class="subtitle">Pour commencer, créez ou rejoignez une résidence</p>
-  
+        <!-- Bouton Plus tard -->
+    <button type="button" class="btn-skip" (click)="skipSetup()"> Plus tard</button>
+
       <!-- Choix du mode -->
       <div *ngIf="!mode" class="mode-selection">
         <button class="mode-btn create" (click)="selectMode('create')">

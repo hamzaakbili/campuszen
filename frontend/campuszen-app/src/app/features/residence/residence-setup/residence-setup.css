@@ -29,6 +29,23 @@
     margin: 0 0 40px 0;
     font-size: 1.1rem;
   }
+  .btn-skip {
+    display: block;
+    margin: 0 auto 24px auto;
+    background: transparent;
+    border: 2px solid #ddd;
+    color: #666;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .btn-skip:hover {
+    background: #f5f5f5;
+    border-color: #999;
+  }
   
   /* Mode Selection */
   .mode-selection {
