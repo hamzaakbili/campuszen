@@ -32,7 +32,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "residence_id")
-    private User residence;  // On utilisera User pour l'instant, on créera Residence plus tard
+    private Residence residence;
 
     @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

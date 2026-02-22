@@ -29,16 +29,16 @@ export class TaskService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/tasks`;
 
-  getAllTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.apiUrl);
+  getAllTasks(residenceId: number): Observable<Task[]> {
+    return this.http.get<Task[]>(`${this.apiUrl}?residenceId=${residenceId}`);
   }
 
-  createTask(task: TaskRequest): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, task);
+  createTask(task: TaskRequest, residenceId: number): Observable<Task> {
+    return this.http.post<Task>(`${this.apiUrl}?residenceId=${residenceId}`, task);
   }
 
-  updateTask(id: number, task: TaskRequest): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
+  updateTask(id: number, task: TaskRequest, residenceId: number): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${id}?residenceId=${residenceId}`, task);
   }
 
   markAsCompleted(id: number): Observable<Task> {

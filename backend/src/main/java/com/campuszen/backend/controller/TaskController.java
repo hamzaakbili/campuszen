@@ -18,17 +18,22 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<TaskResponse>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
+    public ResponseEntity<List<TaskResponse>> getAllTasks(@RequestParam Long residenceId) {
+        return ResponseEntity.ok(taskService.getAllTasksByResidence(residenceId));
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponse> createTask(@RequestBody TaskRequest request) {
-        return ResponseEntity.ok(taskService.createTask(request));
+    public ResponseEntity<TaskResponse> createTask(
+            @RequestBody TaskRequest request,
+            @RequestParam Long residenceId) {
+        return ResponseEntity.ok(taskService.createTask(request, residenceId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponse> updateTask(@PathVariable Long id, @RequestBody TaskRequest request) {
+    public ResponseEntity<TaskResponse> updateTask(
+            @PathVariable Long id,
+            @RequestBody TaskRequest request,
+            @RequestParam Long residenceId) {
         return ResponseEntity.ok(taskService.updateTask(id, request));
     }
 

@@ -18,13 +18,15 @@ public class ExpenseController {
     private ExpenseService expenseService;
 
     @GetMapping
-    public ResponseEntity<List<ExpenseResponse>> getAllExpenses() {
-        return ResponseEntity.ok(expenseService.getAllExpenses());
+    public ResponseEntity<List<ExpenseResponse>> getAllExpenses(@RequestParam Long residenceId) {
+        return ResponseEntity.ok(expenseService.getAllExpensesByResidence(residenceId));
     }
 
     @PostMapping
-    public ResponseEntity<ExpenseResponse> createExpense(@RequestBody ExpenseRequest request) {
-        return ResponseEntity.ok(expenseService.createExpense(request));
+    public ResponseEntity<ExpenseResponse> createExpense(
+            @RequestBody ExpenseRequest request,
+            @RequestParam Long residenceId) {
+        return ResponseEntity.ok(expenseService.createExpense(request, residenceId));
     }
 
     @DeleteMapping("/{id}")

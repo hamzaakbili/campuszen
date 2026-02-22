@@ -12,6 +12,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "residence_id")
+    private Residence residence;
+
     @Column(unique = true, nullable = false)
     private String email;
 

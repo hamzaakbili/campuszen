@@ -3,8 +3,10 @@ package com.campuszen.backend.service;
 import com.campuszen.backend.dto.expense.ExpenseRequest;
 import com.campuszen.backend.dto.expense.ExpenseResponse;
 import com.campuszen.backend.model.Expense;
+import com.campuszen.backend.model.Residence;
 import com.campuszen.backend.model.User;
 import com.campuszen.backend.repository.ExpenseRepository;
+import com.campuszen.backend.repository.ResidenceRepository;
 import com.campuszen.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +27,18 @@ public class ExpenseService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<ExpenseResponse> getAllExpenses() {
+    @Autowired
+    private ResidenceRepository residenceRepository;
+
+    public List<ExpenseResponse> getAllExpensesByResidence(Long residenceId) {
         return expenseRepository.findAll().stream()
+                .filter(expense -> expense.getResidence() != null &&
+                        expense.getResidence().getId().equals(residenceId))
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 
-    public ExpenseResponse createExpense(ExpenseRequest request) {
+    public ExpenseResponse createExpense(ExpenseRequest request, Long residenceId) {
         Expense expense = new Expense();
         expense.setDescription(request.getDescription());
         expense.setAmount(request.getAmount());
@@ -50,6 +57,11 @@ public class ExpenseService {
             splitBetween.add(user);
         }
         expense.setSplitBetween(splitBetween);
+
+        // Associer la résidence
+        Residence residence = residenceRepository.findById(residenceId)
+                .orElseThrow(() -> new RuntimeException("Residence not found"));
+        expense.setResidence(residence);
 
         Expense savedExpense = expenseRepository.save(expense);
         return convertToResponse(savedExpense);

@@ -26,6 +26,10 @@ public class Expense {
     @JoinColumn(name = "paid_by_id")
     private User paidBy;
 
+    @ManyToOne
+    @JoinColumn(name = "residence_id")
+    private Residence residence;
+
     @ManyToMany
     @JoinTable(
             name = "expense_split",

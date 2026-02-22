@@ -25,7 +25,16 @@
     <main class="main-content">
       <div class="welcome">
         <h2>Bienvenue {{ userName }} ! 👋</h2>
-        <p>Voici un aperçu de votre résidence</p>
+        <p>Voici un aperçu de votre résidence : <strong>{{ residenceName }}</strong></p>
+      </div>
+  
+      <!-- Code de Résidence -->
+      <div class="residence-code-card">
+        <div class="code-info">
+          <span class="label">🔑 Code de résidence :</span>
+          <span class="code">{{ residenceCode }}</span>
+        </div>
+        <button class="btn-copy" (click)="copyCode()">📋 Copier</button>
       </div>
   
       <!-- Cartes de Stats -->

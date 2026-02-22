@@ -2,8 +2,10 @@ package com.campuszen.backend.service;
 
 import com.campuszen.backend.dto.task.TaskRequest;
 import com.campuszen.backend.dto.task.TaskResponse;
+import com.campuszen.backend.model.Residence;
 import com.campuszen.backend.model.Task;
 import com.campuszen.backend.model.User;
+import com.campuszen.backend.repository.ResidenceRepository;
 import com.campuszen.backend.repository.TaskRepository;
 import com.campuszen.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,18 @@ public class TaskService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<TaskResponse> getAllTasks() {
+    @Autowired
+    private ResidenceRepository residenceRepository;
+
+    public List<TaskResponse> getAllTasksByResidence(Long residenceId) {
         return taskRepository.findAll().stream()
+                .filter(task -> task.getResidence() != null &&
+                        task.getResidence().getId().equals(residenceId))
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 
-    public TaskResponse createTask(TaskRequest request) {
+    public TaskResponse createTask(TaskRequest request, Long residenceId) {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -40,6 +47,10 @@ public class TaskService {
                     .orElseThrow(() -> new RuntimeException("User not found"));
             task.setAssignedTo(assignedUser);
         }
+
+        Residence residence = residenceRepository.findById(residenceId)
+                .orElseThrow(() -> new RuntimeException("Residence not found"));
+        task.setResidence(residence);
 
         Task savedTask = taskRepository.save(task);
         return convertToResponse(savedTask);

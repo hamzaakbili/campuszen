@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExpenseService, Expense } from '../expense';
 import { RouterModule } from '@angular/router';
+import { ResidenceService } from '../../residence/residence';
 
 @Component({
   selector: 'app-expense-list',
@@ -13,16 +14,26 @@ import { RouterModule } from '@angular/router';
 export class ExpenseListComponent implements OnInit {
   expenses: Expense[] = [];
   isLoading = false;
+  residenceId: number | null = null;
 
-  constructor(private expenseService: ExpenseService) {}
+  constructor(
+    private expenseService: ExpenseService,
+    private residenceService: ResidenceService
+  ) {}
 
   ngOnInit() {
-    this.loadExpenses();
+    const residence = this.residenceService.getCurrentResidence();
+    if (residence) {
+      this.residenceId = residence.id;
+      this.loadExpenses();
+    }
   }
 
   loadExpenses() {
+    if (!this.residenceId) return;
+    
     this.isLoading = true;
-    this.expenseService.getAllExpenses().subscribe({
+    this.expenseService.getAllExpenses(this.residenceId).subscribe({
       next: (expenses) => {
         this.expenses = expenses;
         this.isLoading = false;

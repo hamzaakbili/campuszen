@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService, Task } from '../task';
 import { RouterModule } from '@angular/router';
+import { ResidenceService } from '../../residence/residence';
 
 @Component({
   selector: 'app-task-list',
@@ -13,16 +14,26 @@ import { RouterModule } from '@angular/router';
 export class TaskListComponent implements OnInit {
   tasks: Task[] = [];
   isLoading = false;
+  residenceId: number | null = null;
 
-  constructor(private taskService: TaskService) {}
+  constructor(
+    private taskService: TaskService,
+    private residenceService: ResidenceService
+  ) {}
 
   ngOnInit() {
-    this.loadTasks();
+    const residence = this.residenceService.getCurrentResidence();
+    if (residence) {
+      this.residenceId = residence.id;
+      this.loadTasks();
+    }
   }
 
   loadTasks() {
+    if (!this.residenceId) return;
+    
     this.isLoading = true;
-    this.taskService.getAllTasks().subscribe({
+    this.taskService.getAllTasks(this.residenceId).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
         this.isLoading = false;

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ExpenseService, ExpenseRequest } from '../expense';
+import { ResidenceService } from '../../residence/residence';
 
 @Component({
   selector: 'app-expense-create',
@@ -15,24 +16,36 @@ export class ExpenseCreateComponent {
   expense: ExpenseRequest = {
     description: '',
     amount: 0,
-    paidById: 1, // On mettra l'utilisateur connecté plus tard
-    splitBetweenIds: [1], // Pour l'instant juste soi-même
+    paidById: 1,
+    splitBetweenIds: [1],
     date: new Date().toISOString().split('T')[0]
   };
   
   errorMessage = '';
   isLoading = false;
+  residenceId: number | null = null;
 
   constructor(
     private expenseService: ExpenseService,
+    private residenceService: ResidenceService,
     private router: Router
-  ) {}
+  ) {
+    const residence = this.residenceService.getCurrentResidence();
+    if (residence) {
+      this.residenceId = residence.id;
+    }
+  }
 
   onSubmit() {
+    if (!this.residenceId) {
+      this.errorMessage = 'Pas de résidence associée';
+      return;
+    }
+
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.expenseService.createExpense(this.expense).subscribe({
+    this.expenseService.createExpense(this.expense, this.residenceId).subscribe({
       next: () => {
         this.router.navigate(['/expenses']);
       },

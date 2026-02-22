@@ -1,0 +1,96 @@
+<div class="setup-container">
+    <div class="setup-card">
+      <h1>🏠 Bienvenue sur CampusZen !</h1>
+      <p class="subtitle">Pour commencer, créez ou rejoignez une résidence</p>
+  
+      <!-- Choix du mode -->
+      <div *ngIf="!mode" class="mode-selection">
+        <button class="mode-btn create" (click)="selectMode('create')">
+          <div class="icon">🏗️</div>
+          <h3>Créer une résidence</h3>
+          <p>Vous êtes le premier ? Créez votre résidence et invitez vos colocataires</p>
+        </button>
+  
+        <button class="mode-btn join" (click)="selectMode('join')">
+          <div class="icon">🔑</div>
+          <h3>Rejoindre une résidence</h3>
+          <p>Vos colocataires ont déjà créé une résidence ? Rejoignez-les avec le code</p>
+        </button>
+      </div>
+  
+      <!-- Formulaire Créer -->
+      <div *ngIf="mode === 'create'" class="form-container">
+        <button class="btn-back" (click)="mode = null">← Retour</button>
+        
+        <h2>🏗️ Créer une résidence</h2>
+        
+        <form (ngSubmit)="createResidence()">
+          <div class="form-group">
+            <label>Nom de la résidence *</label>
+            <input 
+              type="text" 
+              [(ngModel)]="createData.name" 
+              name="name"
+              placeholder="Ex: Appart Dupont"
+              required
+            >
+          </div>
+  
+          <div class="form-group">
+            <label>Adresse</label>
+            <input 
+              type="text" 
+              [(ngModel)]="createData.address" 
+              name="address"
+              placeholder="Ex: 15 rue de la Paix, Paris"
+            >
+          </div>
+  
+          <div class="info-box">
+            <p>💡 Un code unique sera généré pour inviter vos colocataires</p>
+          </div>
+  
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+  
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? 'Création...' : 'Créer la résidence' }}
+          </button>
+        </form>
+      </div>
+  
+      <!-- Formulaire Rejoindre -->
+      <div *ngIf="mode === 'join'" class="form-container">
+        <button class="btn-back" (click)="mode = null">← Retour</button>
+        
+        <h2>🔑 Rejoindre une résidence</h2>
+        
+        <form (ngSubmit)="joinResidence()">
+          <div class="form-group">
+            <label>Code de la résidence *</label>
+            <input 
+              type="text" 
+              [(ngModel)]="joinData.code" 
+              name="code"
+              placeholder="Ex: RES-12345"
+              required
+              class="code-input"
+            >
+          </div>
+  
+          <div class="info-box">
+            <p>💡 Demandez le code à vos colocataires</p>
+          </div>
+  
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+  
+          <button type="submit" class="btn-submit" [disabled]="isLoading">
+            {{ isLoading ? 'Connexion...' : 'Rejoindre la résidence' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>

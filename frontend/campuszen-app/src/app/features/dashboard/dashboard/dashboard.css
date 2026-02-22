@@ -85,6 +85,56 @@
   .welcome {
     margin-bottom: 40px;
   }
+
+  /* Code de Résidence */
+.residence-code-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+  
+  .code-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .code-info .label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
+  .code-info .code {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  
+  .btn-copy {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .btn-copy:hover {
+    transform: scale(1.05);
+  }
   
   .welcome h2 {
     margin: 0 0 8px 0;
