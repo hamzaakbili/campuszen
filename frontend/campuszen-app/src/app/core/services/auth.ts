@@ -9,6 +9,7 @@ export interface AuthResponse {
   email: string;
   firstName: string;
   lastName: string;
+  userId: number; 
 }
 
 export interface LoginRequest {
@@ -57,12 +58,14 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
+    localStorage.removeItem('userId'); 
     this.currentUserSubject.next(null);
   }
 
   private saveUser(response: AuthResponse): void {
     localStorage.setItem('currentUser', JSON.stringify(response));
     localStorage.setItem('token', response.token);
+    localStorage.setItem('userId', response.userId.toString()); 
     this.currentUserSubject.next(response);
   }
 
@@ -72,5 +75,10 @@ export class AuthService {
   
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId, 10) : null;
   }
 }

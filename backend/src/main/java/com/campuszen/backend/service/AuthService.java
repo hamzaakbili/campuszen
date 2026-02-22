@@ -45,7 +45,7 @@ public class AuthService {
         // Générer le token JWT
         String token = jwtTokenProvider.createToken(user.getEmail());
 
-        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName());
+        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName(), user.getId());
     }
 
     // Connexion
@@ -67,6 +67,6 @@ public class AuthService {
         // Générer le token JWT
         String token = jwtTokenProvider.createToken(user.getEmail());
 
-        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName());
+        return new AuthResponse(token, user.getEmail(), user.getFirstName(), user.getLastName(), user.getId());
     }
 }

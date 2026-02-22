@@ -27,15 +27,14 @@ export class LoginComponent {
   onSubmit() {
     this.errorMessage = '';
     this.isLoading = true;
-
+  
     this.authService.login({ email: this.email, password: this.password })
       .subscribe({
         next: (response) => {
           console.log('Connexion réussie !', response);
           
-          // Récupérer la résidence de l'utilisateur depuis le backend
-          // Utilise l'ID de l'utilisateur (pour l'instant on utilise 1, à améliorer plus tard)
-          this.residenceService.getMyResidence(1).subscribe({
+          // Utiliser le vrai userId de la réponse
+          this.residenceService.getMyResidence(response.userId).subscribe({
             next: (residence) => {
               // Résidence trouvée, aller au dashboard
               this.router.navigate(['/dashboard']);

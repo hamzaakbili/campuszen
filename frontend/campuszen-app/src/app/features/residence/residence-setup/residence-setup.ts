@@ -26,21 +26,12 @@ export class ResidenceSetupComponent {
   
   errorMessage = '';
   isLoading = false;
-  currentUserId: number | null = null;
 
   constructor(
     private residenceService: ResidenceService,
     private authService: AuthService,
     private router: Router
-  ) {
-    // Récupérer l'ID de l'utilisateur connecté
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        // Pour l'instant, on utilise un ID fixe, on améliorera ça plus tard
-        this.currentUserId = 1; // Temporaire
-      }
-    });
-  }
+  ) {}
 
   selectMode(mode: 'create' | 'join') {
     this.mode = mode;
@@ -48,7 +39,8 @@ export class ResidenceSetupComponent {
   }
 
   createResidence() {
-    if (!this.currentUserId) {
+    const userId = this.authService.getUserId();
+    if (!userId) {
       this.errorMessage = 'Utilisateur non connecté';
       return;
     }
@@ -56,7 +48,7 @@ export class ResidenceSetupComponent {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.residenceService.createResidence(this.createData, this.currentUserId).subscribe({
+    this.residenceService.createResidence(this.createData, userId).subscribe({
       next: (residence) => {
         this.router.navigate(['/dashboard']);
       },
@@ -68,7 +60,8 @@ export class ResidenceSetupComponent {
   }
 
   joinResidence() {
-    if (!this.currentUserId) {
+    const userId = this.authService.getUserId();
+    if (!userId) {
       this.errorMessage = 'Utilisateur non connecté';
       return;
     }
@@ -76,7 +69,7 @@ export class ResidenceSetupComponent {
     this.errorMessage = '';
     this.isLoading = true;
 
-    this.residenceService.joinResidence(this.joinData, this.currentUserId).subscribe({
+    this.residenceService.joinResidence(this.joinData, userId).subscribe({
       next: (residence) => {
         this.router.navigate(['/dashboard']);
       },
