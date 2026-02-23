@@ -35,7 +35,7 @@ public class TaskController {
             @PathVariable Long id,
             @RequestBody TaskRequest request,
             @RequestParam Long residenceId) {
-        return ResponseEntity.ok(taskService.updateTask(id, request));
+        return ResponseEntity.ok(taskService.updateTask(id, request, residenceId));
     }
 
     @PatchMapping("/{id}/complete")

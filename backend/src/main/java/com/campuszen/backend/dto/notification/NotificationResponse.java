@@ -13,4 +13,5 @@ public class NotificationResponse {
     private String message;
     private String createdByName;
     private LocalDateTime createdAt;
+    private boolean seen;
 }

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export interface Residence {
@@ -32,11 +32,11 @@ export class ResidenceService {
   public currentResidence$ = this.currentResidenceSubject.asObservable();
 
   constructor() {
-    // Charger la résidence du localStorage au démarrage
-    const savedResidence = localStorage.getItem('currentResidence');
-    if (savedResidence) {
-      this.currentResidenceSubject.next(JSON.parse(savedResidence));
+    const residence = this.getCurrentResidence();
+    if (!residence) {
+      localStorage.removeItem('currentResidence');
     }
+    this.currentResidenceSubject.next(residence);
   }
 
   createResidence(data: CreateResidenceRequest, userId: number): Observable<Residence> {
@@ -53,10 +53,20 @@ export class ResidenceService {
       );
   }
 
-  getMyResidence(userId: number): Observable<Residence> {
+  getMyResidence(userId: number): Observable<Residence | null> {
     return this.http.get<Residence>(`${this.apiUrl}/my-residence?userId=${userId}`)
       .pipe(
-        tap(residence => this.saveResidence(residence))
+        tap((residence) => {
+          if (residence) {
+            this.saveResidence(residence);
+          } else {
+            this.clearResidence();
+          }
+        }),
+        catchError(() => {
+          this.clearResidence();
+          return of(null);
+        })
       );
   }
 
@@ -66,12 +76,24 @@ export class ResidenceService {
   }
 
   hasResidence(): boolean {
-    return !!localStorage.getItem('currentResidence');
+    return this.getCurrentResidence() !== null;
   }
 
   getCurrentResidence(): Residence | null {
-    const residence = localStorage.getItem('currentResidence');
-    return residence ? JSON.parse(residence) : null;
+    const raw = localStorage.getItem('currentResidence');
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed.id !== 'number') {
+        return null;
+      }
+      return parsed as Residence;
+    } catch {
+      return null;
+    }
   }
 
   clearResidence(): void {

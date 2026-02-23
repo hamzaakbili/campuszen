@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
-import { ResidenceService } from '../../residence/residence';  // Rajoute cet import
+import { ResidenceService } from '../../residence/residence';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +17,16 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
   isLoading = false;
+  returnUrl = '/dashboard';
 
   constructor(
     private authService: AuthService,
-    private residenceService: ResidenceService,  // Rajoute cette ligne
+    private residenceService: ResidenceService,
+    private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
+  }
 
   onSubmit() {
     this.errorMessage = '';
@@ -31,21 +35,20 @@ export class LoginComponent {
     this.authService.login({ email: this.email, password: this.password })
       .subscribe({
         next: (response) => {
-          console.log('Connexion réussie !', response);
-          
-          // Utiliser le vrai userId de la réponse
           this.residenceService.getMyResidence(response.userId).subscribe({
             next: (residence) => {
-              // Résidence trouvée, aller au dashboard
-              this.router.navigate(['/dashboard']);
+              if (residence) {
+                this.router.navigateByUrl(this.returnUrl);
+              } else {
+                this.router.navigate(['/residence-setup']);
+              }
             },
             error: () => {
-              // Pas de résidence, aller au setup
               this.router.navigate(['/residence-setup']);
             }
           });
         },
-        error: (error) => {
+        error: () => {
           this.errorMessage = 'Email ou mot de passe incorrect';
           this.isLoading = false;
         }

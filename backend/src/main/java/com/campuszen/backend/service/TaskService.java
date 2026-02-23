@@ -30,9 +30,7 @@ public class TaskService {
     private NotificationService notificationService;
 
     public List<TaskResponse> getAllTasksByResidence(Long residenceId) {
-        return taskRepository.findAll().stream()
-                .filter(task -> task.getResidence() != null &&
-                        task.getResidence().getId().equals(residenceId))
+        return taskRepository.findByResidenceId(residenceId).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -62,15 +60,19 @@ public class TaskService {
                 residenceId,
                 com.campuszen.backend.model.Notification.NotificationType.TASK,
                 "Nouvelle tâche créée : " + task.getTitle(),
-                userId  // Pour l'instant userId en dur, à améliorer plus tard
+                userId
         );
 
         return convertToResponse(savedTask);
     }
 
-    public TaskResponse updateTask(Long id, TaskRequest request) {
+    public TaskResponse updateTask(Long id, TaskRequest request, Long residenceId) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        if (task.getResidence() == null || !task.getResidence().getId().equals(residenceId)) {
+            throw new RuntimeException("Task does not belong to this residence");
+        }
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());

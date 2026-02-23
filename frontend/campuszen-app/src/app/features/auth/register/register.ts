@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
-import { ResidenceService } from '../../residence/residence';  
-
 
 @Component({
   selector: 'app-register',
@@ -25,7 +23,6 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthService,
-    private residenceService: ResidenceService, 
     private router: Router
   ) {}
 
@@ -46,11 +43,10 @@ export class RegisterComponent {
       lastName: this.lastName,
       cursus: this.cursus
     }).subscribe({
-      next: (response) => {
-        console.log('Inscription réussie !', response);
+      next: () => {
         this.router.navigate(['/residence-setup']);
       },
-      error: (error) => {
+      error: () => {
         this.errorMessage = 'Erreur lors de l\'inscription. Vérifiez vos informations.';
         this.isLoading = false;
       }

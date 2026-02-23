@@ -49,22 +49,22 @@
         <div class="stat-action">Voir les dépenses →</div>
       </div>
   
-      <div class="stat-card shopping">
+      <div class="stat-card shopping" routerLink="/shopping">
         <div class="stat-icon">🛒</div>
         <div class="stat-content">
           <h3>Liste de courses</h3>
-          <p class="stat-number">Bientôt</p>
+          <p class="stat-number">{{ shoppingPendingCount }}</p>
         </div>
-        <div class="stat-action">Bientôt disponible</div>
+        <div class="stat-action">Articles à acheter →</div>
       </div>
   
-      <div class="stat-card events">
+      <div class="stat-card events" routerLink="/events">
         <div class="stat-icon">📅</div>
         <div class="stat-content">
           <h3>Événements</h3>
-          <p class="stat-number">Bientôt</p>
+          <p class="stat-number">{{ upcomingEventCount }}</p>
         </div>
-        <div class="stat-action">Bientôt disponible</div>
+        <div class="stat-action">{{ nextEventLabel }}</div>
       </div>
     </div>
   
@@ -77,6 +77,12 @@
         </button>
         <button class="action-btn" routerLink="/expenses/create">
           ➕ Ajouter une dépense
+        </button>
+        <button class="action-btn" routerLink="/shopping">
+          🛒 Ouvrir les courses
+        </button>
+        <button class="action-btn" routerLink="/events">
+          📅 Créer un événement
         </button>
       </div>
     </div>

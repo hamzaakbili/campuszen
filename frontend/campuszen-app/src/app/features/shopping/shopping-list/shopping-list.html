@@ -1,0 +1,71 @@
+<div class="shopping-page">
+  <div class="page-header">
+    <div>
+      <h1>Liste de courses</h1>
+      <p>Gérez les achats communs de la résidence</p>
+    </div>
+    <button class="btn-back" routerLink="/dashboard">Retour dashboard</button>
+  </div>
+
+  <div class="add-card">
+    <h2>Ajouter un article</h2>
+    <form (ngSubmit)="addItem()" class="add-form">
+      <input
+        type="text"
+        [(ngModel)]="newItem.title"
+        name="title"
+        placeholder="Ex: Lait, riz, papier toilette..."
+        required
+      />
+      <input
+        type="number"
+        [(ngModel)]="newItem.quantity"
+        name="quantity"
+        min="1"
+        required
+      />
+      <button type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Ajout...' : 'Ajouter' }}
+      </button>
+    </form>
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+
+  <div class="lists-grid" *ngIf="!isLoading; else loadingState">
+    <section class="list-card">
+      <h3>À acheter ({{ pendingItems.length }})</h3>
+      <div *ngIf="pendingItems.length === 0" class="empty">Aucun article en attente</div>
+      <div *ngFor="let item of pendingItems" class="list-item">
+        <div class="item-main">
+          <strong>{{ item.title }}</strong>
+          <span>Quantité: {{ item.quantity }}</span>
+          <small>Ajouté par {{ item.addedByName }}</small>
+        </div>
+        <div class="item-actions">
+          <button class="btn-done" (click)="toggleItem(item)">Acheté</button>
+          <button class="btn-delete" (click)="deleteItem(item)">Supprimer</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="list-card purchased">
+      <h3>Déjà achetés ({{ purchasedItems.length }})</h3>
+      <div *ngIf="purchasedItems.length === 0" class="empty">Aucun article acheté</div>
+      <div *ngFor="let item of purchasedItems" class="list-item done">
+        <div class="item-main">
+          <strong>{{ item.title }}</strong>
+          <span>Quantité: {{ item.quantity }}</span>
+          <small>Ajouté par {{ item.addedByName }}</small>
+        </div>
+        <div class="item-actions">
+          <button class="btn-undo" (click)="toggleItem(item)">Remettre</button>
+          <button class="btn-delete" (click)="deleteItem(item)">Supprimer</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading">Chargement de la liste...</div>
+  </ng-template>
+</div>

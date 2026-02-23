@@ -1,0 +1,79 @@
+<div class="events-page">
+  <div class="page-header">
+    <div>
+      <h1>Événements</h1>
+      <p>Planifiez les activités de la résidence</p>
+    </div>
+    <button class="btn-back" routerLink="/dashboard">Retour dashboard</button>
+  </div>
+
+  <div class="add-card">
+    <h2>Créer un événement</h2>
+    <form (ngSubmit)="addEvent()" class="event-form">
+      <input
+        type="text"
+        [(ngModel)]="newEvent.title"
+        name="title"
+        placeholder="Titre (soirée, séance révision...)"
+        required
+      />
+      <input
+        type="datetime-local"
+        [(ngModel)]="newEvent.eventDateTime"
+        name="eventDateTime"
+        required
+      />
+      <input
+        type="text"
+        [(ngModel)]="newEvent.location"
+        name="location"
+        placeholder="Lieu (Salle commune, campus...)"
+      />
+      <textarea
+        [(ngModel)]="newEvent.description"
+        name="description"
+        rows="3"
+        placeholder="Description de l'événement"
+      ></textarea>
+      <button type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Création...' : 'Créer l’événement' }}
+      </button>
+    </form>
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!isLoading; else loadingState" class="events-grid">
+    <section class="events-card">
+      <h3>À venir ({{ upcomingEvents.length }})</h3>
+      <div *ngIf="upcomingEvents.length === 0" class="empty">Aucun événement à venir</div>
+      <div *ngFor="let event of upcomingEvents" class="event-item upcoming">
+        <div class="event-main">
+          <strong>{{ event.title }}</strong>
+          <span>{{ event.eventDateTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+          <small *ngIf="event.location">📍 {{ event.location }}</small>
+          <p *ngIf="event.description">{{ event.description }}</p>
+          <small>Créé par {{ event.createdByName }}</small>
+        </div>
+        <button class="btn-delete" (click)="deleteEvent(event)">Supprimer</button>
+      </div>
+    </section>
+
+    <section class="events-card">
+      <h3>Passés ({{ pastEvents.length }})</h3>
+      <div *ngIf="pastEvents.length === 0" class="empty">Aucun événement passé</div>
+      <div *ngFor="let event of pastEvents" class="event-item past">
+        <div class="event-main">
+          <strong>{{ event.title }}</strong>
+          <span>{{ event.eventDateTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+          <small *ngIf="event.location">📍 {{ event.location }}</small>
+          <p *ngIf="event.description">{{ event.description }}</p>
+        </div>
+        <button class="btn-delete" (click)="deleteEvent(event)">Supprimer</button>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #loadingState>
+    <div class="loading">Chargement des événements...</div>
+  </ng-template>
+</div>

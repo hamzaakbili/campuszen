@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TaskService, TaskRequest } from '../task';
 import { ResidenceService } from '../../residence/residence';
-import { NotificationService } from '../../../shared/notifications/notification.service';
 import { AuthService } from '../../../core/services/auth'; 
 
 @Component({
@@ -30,7 +29,6 @@ export class TaskCreateComponent {
   constructor(
     private taskService: TaskService,
     private residenceService: ResidenceService,
-    //private notificationService: NotificationService, 
     private authService: AuthService, 
     private router: Router
   ) {
@@ -39,8 +37,6 @@ export class TaskCreateComponent {
       this.residenceId = residence.id;
     }
     this.userId = this.authService.getUserId(); 
-    console.log('UserId récupéré:', this.userId);  // ← Ajoute cette ligne
-    console.log('ResidenceId récupéré:', this.residenceId); 
   }
 
   onSubmit() {
@@ -54,10 +50,9 @@ export class TaskCreateComponent {
 
     this.taskService.createTask(this.task, this.residenceId, this.userId).subscribe({
       next: () => {
-        //this.notificationService.addNotification('task', `Nouvelle tâche créée : ${this.task.title}`);  // ← Ajoute cette ligne
         this.router.navigate(['/tasks']);
       },
-      error: (error) => {
+      error: () => {
         this.errorMessage = 'Erreur lors de la création de la tâche';
         this.isLoading = false;
       }

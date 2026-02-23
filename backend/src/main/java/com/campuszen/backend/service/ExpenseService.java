@@ -34,9 +34,7 @@ public class ExpenseService {
     private NotificationService notificationService;
 
     public List<ExpenseResponse> getAllExpensesByResidence(Long residenceId) {
-        return expenseRepository.findAll().stream()
-                .filter(expense -> expense.getResidence() != null &&
-                        expense.getResidence().getId().equals(residenceId))
+        return expenseRepository.findByResidenceId(residenceId).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -72,7 +70,7 @@ public class ExpenseService {
                 residenceId,
                 com.campuszen.backend.model.Notification.NotificationType.EXPENSE,
                 "Nouvelle dépense ajoutée : " + expense.getDescription() + " (" + expense.getAmount() + "€)",
-                userId1  // ← Utilise le vrai userId
+                userId1
         );
         return convertToResponse(savedExpense);
     }
@@ -93,8 +91,9 @@ public class ExpenseService {
                 .collect(Collectors.toSet());
 
         // Calcul du montant par personne
+        int participants = Math.max(expense.getSplitBetween().size(), 1);
         BigDecimal amountPerPerson = expense.getAmount()
-                .divide(BigDecimal.valueOf(expense.getSplitBetween().size()), 2, RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf(participants), 2, RoundingMode.HALF_UP);
 
         return new ExpenseResponse(
                 expense.getId(),

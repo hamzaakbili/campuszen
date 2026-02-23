@@ -1,8 +1,10 @@
 package com.campuszen.backend.controller;
 
-import com.campuszen.backend.model.User;
-import com.campuszen.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.campuszen.backend.dto.user.UpdateUserProfileRequest;
+import com.campuszen.backend.dto.user.UserProfileResponse;
+import com.campuszen.backend.dto.user.UserSummaryResponse;
+import com.campuszen.backend.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +14,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/test")
     public String test() {
@@ -21,12 +26,19 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<UserSummaryResponse>> getUsersByResidence(@RequestParam Long residenceId) {
+        return ResponseEntity.ok(userService.getUsersByResidence(residenceId));
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<UserProfileResponse> getUserProfile(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUserProfile(userId));
+    }
+
+    @PutMapping("/{userId}/profile")
+    public ResponseEntity<UserProfileResponse> updateUserProfile(
+            @PathVariable Long userId,
+            @RequestBody UpdateUserProfileRequest request) {
+        return ResponseEntity.ok(userService.updateUserProfile(userId, request));
     }
 }

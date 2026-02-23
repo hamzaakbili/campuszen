@@ -1,9 +1,9 @@
 <div class="layout-container">
     <!-- Header avec Navigation -->
     <header class="header">
-      <div class="logo">
+      <a class="logo-link" routerLink="/dashboard" aria-label="Retour au dashboard">
         <h1>🏠 CampusZen</h1>
-      </div>
+      </a>
       <nav class="nav">
         <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           📊 Dashboard
@@ -14,10 +14,20 @@
         <a routerLink="/expenses" routerLinkActive="active">
           💰 Dépenses
         </a>
+        <a routerLink="/shopping" routerLinkActive="active">
+          🛒 Courses
+        </a>
+        <a routerLink="/events" routerLinkActive="active">
+          📅 Événements
+        </a>
       </nav>
       <div class="user-menu">
-        <span>👤 {{ userName }}</span>
+        <button class="profile-chip" routerLink="/profile" type="button">
+          <span class="avatar" [style.background]="avatarColor">{{ userInitial }}</span>
+          <span class="name">{{ userName }}</span>
+        </button>
         <app-notifications></app-notifications>
+        <button class="btn-profile" routerLink="/profile">Profil</button>
         <button class="btn-logout" (click)="logout()">Déconnexion</button>
       </div>
     </header>

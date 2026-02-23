@@ -10,6 +10,7 @@ export interface AuthResponse {
   firstName: string;
   lastName: string;
   userId: number; 
+  avatarColor?: string;
 }
 
 export interface LoginRequest {
@@ -80,5 +81,16 @@ export class AuthService {
   getUserId(): number | null {
     const userId = localStorage.getItem('userId');
     return userId ? parseInt(userId, 10) : null;
+  }
+
+  updateCurrentUser(patch: Partial<AuthResponse>): void {
+    const currentUser = this.currentUserSubject.value;
+    if (!currentUser) {
+      return;
+    }
+
+    const updatedUser = { ...currentUser, ...patch };
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    this.currentUserSubject.next(updatedUser);
   }
 }

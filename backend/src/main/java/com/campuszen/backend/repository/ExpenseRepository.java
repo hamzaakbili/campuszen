@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByPaidById(Long userId);
+    List<Expense> findByResidenceId(Long residenceId);
 }

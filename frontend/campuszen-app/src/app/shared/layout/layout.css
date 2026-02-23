@@ -12,13 +12,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
     padding: 16px 40px;
     position: sticky;
     top: 0;
     z-index: 100;
   }
   
-  .logo h1 {
+.logo-link {
+  text-decoration: none;
+}
+
+.logo-link h1 {
     margin: 0;
     font-size: 1.5rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -30,6 +36,7 @@
   .nav {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
   }
   
   .nav a {
@@ -54,12 +61,44 @@
   .user-menu {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 10px;
   }
-  
-  .user-menu span {
-    color: #666;
-    font-weight: 500;
+
+  .profile-chip {
+    border: none;
+    background: #f8fafc;
+    border-radius: 999px;
+    padding: 6px 10px 6px 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .profile-chip .name {
+    color: #4a5568;
+    font-weight: 600;
+  }
+
+  .btn-profile {
+    padding: 8px 14px;
+    background: #edf2f7;
+    color: #2d3748;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
   }
   
   .btn-logout {
@@ -84,4 +123,19 @@
     width: 100%;
     margin: 0 auto;
     padding: 40px 20px;
+  }
+
+  @media (max-width: 900px) {
+    .header {
+      padding: 14px 16px;
+    }
+
+    .logo-link h1 {
+      font-size: 1.3rem;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
   }

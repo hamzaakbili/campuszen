@@ -17,7 +17,17 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationResponse>> getNotifications(@RequestParam Long residenceId) {
-        return ResponseEntity.ok(notificationService.getNotificationsByResidence(residenceId));
+    public ResponseEntity<List<NotificationResponse>> getNotifications(
+            @RequestParam Long residenceId,
+            @RequestParam Long userId) {
+        return ResponseEntity.ok(notificationService.getNotificationsByResidence(residenceId, userId));
+    }
+
+    @PatchMapping("/seen")
+    public ResponseEntity<Void> markAllAsSeen(
+            @RequestParam Long residenceId,
+            @RequestParam Long userId) {
+        notificationService.markAllAsSeen(residenceId, userId);
+        return ResponseEntity.noContent().build();
     }
 }

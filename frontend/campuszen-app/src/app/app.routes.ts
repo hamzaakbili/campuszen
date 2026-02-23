@@ -8,7 +8,11 @@ import { TaskListComponent } from './features/tasks/task-list/task-list';
 import { TaskCreateComponent } from './features/tasks/task-create/task-create';
 import { ExpenseListComponent } from './features/expenses/expense-list/expense-list';
 import { ExpenseCreateComponent } from './features/expenses/expense-create/expense-create';
+import { ShoppingListComponent } from './features/shopping/shopping-list/shopping-list';
+import { EventsListComponent } from './features/events/events-list/events-list';
+import { ProfileComponent } from './features/profile/profile/profile';
 import { authGuard } from './core/guards/auth-guard';
+import { residenceGuard } from './core/guards/residence-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -25,10 +29,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'tasks', component: TaskListComponent },
-      { path: 'tasks/create', component: TaskCreateComponent },
-      { path: 'expenses', component: ExpenseListComponent },
-      { path: 'expenses/create', component: ExpenseCreateComponent }
+      { path: 'tasks', component: TaskListComponent, canActivate: [residenceGuard] },
+      { path: 'tasks/create', component: TaskCreateComponent, canActivate: [residenceGuard] },
+      { path: 'expenses', component: ExpenseListComponent, canActivate: [residenceGuard] },
+      { path: 'expenses/create', component: ExpenseCreateComponent, canActivate: [residenceGuard] },
+      { path: 'shopping', component: ShoppingListComponent, canActivate: [residenceGuard] },
+      { path: 'events', component: EventsListComponent, canActivate: [residenceGuard] },
+      { path: 'profile', component: ProfileComponent }
     ]
-  }
+  },
+  { path: '**', redirectTo: '/login' }
 ];

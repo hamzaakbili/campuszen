@@ -25,6 +25,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String cursus;
+    private String bio;
+    private String avatarColor = "#667eea";
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.STUDENT;

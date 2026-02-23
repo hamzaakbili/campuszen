@@ -27,11 +27,11 @@ export class NotificationsComponent implements OnInit {
     this.isOpen = !this.isOpen;
     
     if (this.isOpen && this.unseenCount > 0) {
-      // Marquer comme vues seulement si des notifications non vues existent
       setTimeout(() => {
-        this.notificationService.markAllAsSeen();
-        this.unseenCount = 0;
-      }, 1500);  // Augmente à 1.5 secondes pour laisser le temps de voir
+        this.notificationService.markAllAsSeen().subscribe(() => {
+          this.unseenCount = 0;
+        });
+      }, 1200);
     }
   }
 
@@ -40,7 +40,19 @@ export class NotificationsComponent implements OnInit {
   }
 
   getIcon(type: string): string {
-    return type === 'TASK' ? '✅' : '💰';
+    if (type === 'TASK') {
+      return '✅';
+    }
+    if (type === 'EXPENSE') {
+      return '💰';
+    }
+    if (type === 'SHOPPING') {
+      return '🛒';
+    }
+    if (type === 'EVENT') {
+      return '📅';
+    }
+    return '🔔';
   }
 
   getTimeAgo(date: Date): string {

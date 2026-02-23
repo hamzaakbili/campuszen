@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { ResidenceService } from '../../features/residence/residence';
 
-export const residenceGuard = () => {
+export const residenceGuard: CanActivateFn = () => {
   const residenceService = inject(ResidenceService);
   const router = inject(Router);
 
@@ -10,6 +10,5 @@ export const residenceGuard = () => {
     return true;
   }
 
-  router.navigate(['/residence-setup']);
-  return false;
+  return router.createUrlTree(['/residence-setup']);
 };

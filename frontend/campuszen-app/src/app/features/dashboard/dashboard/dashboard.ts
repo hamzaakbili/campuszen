@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 import { ResidenceService } from '../../residence/residence';
 import { TaskService } from '../../tasks/task';
 import { ExpenseService } from '../../expenses/expense';
+import { ShoppingService } from '../../shopping/shopping';
+import { EventService } from '../../events/event';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +21,9 @@ export class DashboardComponent implements OnInit {
   residenceCode = '';
   taskCount = 0;
   expenseTotal = 0;
+  shoppingPendingCount = 0;
+  upcomingEventCount = 0;
+  nextEventLabel = 'Aucun événement';
   residenceId: number | null = null;
 
   constructor(
@@ -26,7 +31,8 @@ export class DashboardComponent implements OnInit {
     private residenceService: ResidenceService,
     private taskService: TaskService,
     private expenseService: ExpenseService,
-    private router: Router
+    private shoppingService: ShoppingService,
+    private eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -61,16 +67,39 @@ export class DashboardComponent implements OnInit {
         this.expenseTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
       }
     });
-  }
 
-  logout() {
-    this.authService.logout();
-    this.residenceService.clearResidence();
-    this.router.navigate(['/login']);
+    this.shoppingService.getAllItems(this.residenceId).subscribe({
+      next: (items) => {
+        this.shoppingPendingCount = items.filter((item) => !item.purchased).length;
+      }
+    });
+
+    this.eventService.getAllEvents(this.residenceId).subscribe({
+      next: (events) => {
+        const now = new Date().getTime();
+        const upcomingEvents = events.filter((event) => new Date(event.eventDateTime).getTime() >= now);
+
+        this.upcomingEventCount = upcomingEvents.length;
+        if (upcomingEvents.length > 0) {
+          this.nextEventLabel = this.formatEventDate(upcomingEvents[0].eventDateTime);
+        } else {
+          this.nextEventLabel = 'Aucun événement';
+        }
+      }
+    });
   }
 
   copyCode() {
     navigator.clipboard.writeText(this.residenceCode);
     alert('Code copié ! Partagez-le avec vos colocataires 🎉');
+  }
+
+  private formatEventDate(eventDateTime: string): string {
+    return new Date(eventDateTime).toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 }
