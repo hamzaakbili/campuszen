@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/residences")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+  "http://localhost:4200",
+  "https://campuszen-app.vercel.app"
+})
 public class ResidenceController {
 
     @Autowired
