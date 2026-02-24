@@ -10,7 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/events")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+  "http://localhost:4200",
+  "https://campuszen-app.vercel.app"
+})
 public class ResidenceEventController {
 
     private final ResidenceEventService residenceEventService;
