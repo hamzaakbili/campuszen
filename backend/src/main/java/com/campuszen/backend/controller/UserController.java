@@ -11,7 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+  "http://localhost:4200",
+  "https://campuszen-app.vercel.app"
+})
 public class UserController {
 
     private final UserService userService;
