@@ -10,7 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/shopping-items")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+  "http://localhost:4200",
+  "https://campuszen-app.vercel.app"
+})
 public class ShoppingItemController {
 
     private final ShoppingItemService shoppingItemService;
